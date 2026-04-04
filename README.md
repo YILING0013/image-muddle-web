@@ -63,75 +63,19 @@
 
 **B. 安装依赖**
 
-该项目依赖 MUI。您需要安装 MUI 及其对等依赖项：
-
 ```bash
-npm install @mui/material @emotion/react @emotion/styled @mui/icons-material
+npm install
 ```
 
-**C. 构建项目**
+**C. 运行项目**
 
-完成以上步骤后，运行生产构建命令：
+完成以上步骤后，运行开发服务器命令：
 
 ```bash
-npm run build
+npm run dev
 ```
 
-这会生成一个 `.out` 文件夹，其中包含所有用于部署的优化过的静态资源。如果要进行自动化部署，在进行下面步骤前，你需要自行修改`next.config.mjs`文件。
-
-### 2\. 部署方案
-
-#### 方案一：Vercel (推荐)
-
-Vercel 是 Next.js 的创建者，提供了最简单、最优化的部署体验。
-
-1.  将您的项目代码推送到一个 Git 仓库 (如 GitHub, GitLab)。
-2.  登录 Vercel，选择 "Import Project"。
-3.  选择您刚刚推送的 Git 仓库。
-4.  Vercel 会自动识别这是一个 Next.js 项目。
-5.  点击 "Deploy"。Vercel 将自动拉取代码、执行 `npm run build` 并将其部署到全球 CDN。
-
-#### 方案二：宝塔面板 (Baota) / 传统 VPS
-
-此方案将 Next.js 作为一个独立的 Node.js 服务运行，并使用宝塔作为反向代理。
-
-1.  **上传文件：**
-      * 修改修改`next.config.mjs`文件，移除有关打包为静态文件的相关参数，之后运行`npm run build`生成`.next`文件。
-      * 将您本地的整个项目文件夹（包括 `node_modules`、`.next` 和 `package.json` 等）上传到服务器的指定目录（例如 `/www/wwwroot/gilbert-tool`）。
-      * *（或者，您可以在服务器上拉取代码并运行 `npm install` 和 `npm run build`，这是更好的做法）。*
-
-2.  **启动服务：**
-    Next.js 的生产服务通过 `next start` 启动。
-
-    ```bash
-    npm run start
-    ```
-
-    *默认情况下，这会启动一个监听 `localhost:3000` 的 Node.js 服务器。*
-
-3.  **使用 PM2 进行进程守护 (推荐)：**
-    为了确保服务在崩溃或服务器重启后能自动运行，请使用 `pm2`。
-
-    ```bash
-    # 全局安装 pm2
-    npm install pm2 -g
-
-    # 进入项目目录
-    cd /www/wwwroot/gilbert-tool
-
-    # 使用 pm2 启动服务
-    pm2 start npm --name "gilbert-tool" -- run start
-    ```
-
-4.  **设置宝塔反向代理：**
-    a.  登录宝塔面板，点击“网站” -\> “添加站点”。
-    b.  输入您的域名（例如 `gilbert.yourdomain.com`）。**PHP 版本选择“纯静态”**，数据库不需要创建。
-    c.  提交后，打开该站点的“设置”。
-    d.  选择“反向代理” -\> “添加反向代理”。
-    e.  **目标 URL** 填写 `http://localhost:3000`。
-    f.  点击“提交”。
-
-完成以上步骤后，宝塔面板会将所有访问您域名的公开请求（80/443 端口）转发到 `pm2` 守护的、运行在 3000 端口的 Next.js 服务上。
+这会启动一个本地开发服务器，通常监听在 `http://localhost:3000`。
 
 ## 技术工作流
 
