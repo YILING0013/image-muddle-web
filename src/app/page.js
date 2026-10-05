@@ -145,7 +145,7 @@ export default function Page() {
   
   const [tile, setTile] = useState(8);
   const [stride, setStride] = useState(8);
-  const [key, setKey] = useState(2776359982);
+  const [key, setKey] = useState("");
   const [padMode, setPadMode] = useState("edge");
   
   // Watermark states
@@ -163,6 +163,13 @@ export default function Page() {
   const [status, setStatus] = useState({ type: "info", message: "请载入图片开始使用" });
   const [isProcessing, setIsProcessing] = useState(false);
   const [imageDimensions, setImageDimensions] = useState(null);
+
+  // 页面进入后在浏览器中生成随机 Key，避免静态预渲染与客户端不一致。
+  useEffect(() => {
+    const randomKey = new Uint32Array(1);
+    window.crypto.getRandomValues(randomKey);
+    setKey(randomKey[0]);
+  }, []);
 
   const drawToCanvas = useCallback(async (fileOrBlob, extractedMeta = null) => {
     try {
