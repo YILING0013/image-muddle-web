@@ -6,7 +6,9 @@
 
 这意味着任何拥有此工具的人都可以加载这张被混淆的 PNG 图像，工具会自动读取元数据，并允许用户将其完美地解码回原始状态。
 
-体验地址：[https://gilbert.idlecloud.cc](https://gilbert.idlecloud.cc)
+体验地址：[https://yiling0013.github.io/image-muddle-web/](https://yiling0013.github.io/image-muddle-web/)
+
+所有图像处理均在浏览器本地完成，无需上传图片或运行后端服务。
 
 ## 核心概念
 
@@ -42,6 +44,27 @@
     * 提供参数滑块、按钮和状态显示。
 
 ## 项目部署教程
+
+### GitHub Pages 自动部署
+
+本项目使用 Next.js 静态导出，构建产物位于 `out/`，可直接托管到 GitHub Pages。
+
+在线地址：[https://yiling0013.github.io/image-muddle-web/](https://yiling0013.github.io/image-muddle-web/)
+
+首次启用时，在仓库的 [Settings → Pages](https://github.com/YILING0013/image-muddle-web/settings/pages) 中，将 **Build and deployment → Source** 设为 **GitHub Actions**。然后进入 [Actions → Deploy to GitHub Pages](https://github.com/YILING0013/image-muddle-web/actions/workflows/deploy-pages.yml)，点击 **Run workflow** 完成首次部署。
+
+之后每次向 `main` 分支推送代码，GitHub Actions 都会自动安装依赖、构建并发布网站。部署进度与错误日志可在上述 Actions 页面查看；首次启用 Pages 前，构建仍可运行，但部署步骤会提示站点未启用。
+
+工作流使用 Node.js 22 和 `npm ci`，并设置 `NEXT_PUBLIC_BASE_PATH=/image-muddle-web`，确保脚本、样式和字体在 GitHub Pages 的仓库子路径下正确加载。本地 `npm run dev` 未设置此变量时仍使用根路径。
+
+若要手动构建 GitHub Pages 版本（Bash / macOS / Linux）：
+
+```bash
+npm ci
+NEXT_PUBLIC_BASE_PATH=/image-muddle-web npm run build
+```
+
+若托管到其他域名的根目录，只需运行 `npm run build`。将生成的 `out/` 目录交给静态网站托管服务即可，无需运行 `next start`。
 
 ### 1\. 本地环境设置与构建
 
